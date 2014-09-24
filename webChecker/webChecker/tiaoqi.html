@@ -1,0 +1,738 @@
+<html>
+<head>
+<title>
+tiaoqi
+</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.disableImage {
+	position: absolute;
+	display:none;
+}
+body {
+	background-color:#aabbcc;
+}
+.backgroundDiv {
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:100%;
+	height:100%;
+}
+.ballBase {
+	position:absolute;
+	width:5%;
+	height:5%;
+}
+.userFlag{
+	position:absolute;
+	width:8%;
+	height:8%;
+}
+.buttonRestart{
+	position:absolute;
+	left:90%;
+	top:90%;
+	width:5%;
+	height:5%;
+}
+.buttonRestartWording{
+    position:absolute;
+    left:90%;
+    top:95%;
+    width:10%;
+    height:5%;
+    color:black;
+}
+.buttonChangeUserNumWording{
+    position:absolute;
+    left:5%;
+    top:93%;
+    width:20%;
+    height:5%;
+    color:black;
+    background-color:green;
+    font-size:20px;
+}
+#tipDiv{
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:100%;
+    height:100%;
+    display:none;
+}
+#tipContent{
+  position:absolute;
+  left: 20%;
+  top: 20%;
+  width: 60%;
+  height: 60%;
+  background-color:#487856;
+}
+#allTipHTML{
+	display: none;
+}
+.commonSpecialTip{
+  position: relative;
+  left:5%;
+  top:5%;
+  width:90%;
+  height:90%;
+  font-size:24px;
+  color:black;
+}
+.commonSpecialTip a{font-size:24px;}
+.commonSpecialTip a:link    {color:black;font-size:24px;text-decoration:none;}
+.commonSpecialTip a:visited {color:black;font-size:24px;text-decoration:none;}
+.commonSpecialTip a:hover   {color:black;font-size:24px;text-decoration:none;}
+.commonSpecialTip a:active  {color:black;font-size:24px;text-decoration:none;}
+.itemImgType{
+	position: relative;
+	width: 10%;
+	height: 10%;
+	top: 2%;
+}
+.resutBallType{
+  	position: relative;
+	width: 10%;
+	height: 10%;
+}
+</style>
+<!-- tiaoqiBase.js contain: event.js,common.js,map.js,ball.js,mapballbase.js-->
+<script type="text/javascript" src="http://www.5igame.cc:8080/WebContent/tiaoqiBase.js"></script>
+<!-- <script type="text/javascript" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/tiaoqiBase.js"></script> -->
+<!-- users -->
+<script type="text/javascript">
+var usersInfo = [
+            {
+                "ballUrls":"https://raw.githubusercontent.com/vegerjiang/checkers/master/b1.png",
+                "startBallFlag":"101",
+                "endBallFlag":"-10-1",
+                "amountOfBall":10,
+                "currentFlag":{
+                	"px":80,
+                	"py":16
+                }
+            },
+            {
+                 "ballUrls":"https://raw.githubusercontent.com/vegerjiang/checkers/master/b2.png",
+                 "startBallFlag":"-10-1",
+                "endBallFlag":"101",
+                "amountOfBall":10,
+                "currentFlag":{
+                	"px":12,
+                	"py":75
+                }
+            },
+            {
+                "ballUrls":"https://raw.githubusercontent.com/vegerjiang/checkers/master/b3.png",
+                "startBallFlag":"110",
+                "endBallFlag":"-1-10",
+                "amountOfBall":10,
+                "currentFlag":{
+                	"px":91,
+                	"py":53
+                }
+            },
+            {
+                "ballUrls":"https://raw.githubusercontent.com/vegerjiang/checkers/master/b4.png",
+                "startBallFlag":"-1-10",
+                "endBallFlag":"110",
+                "amountOfBall":10,
+                "currentFlag":{
+                	"px":0,
+                	"py":39
+                }
+            },
+            {
+                "ballUrls":"https://raw.githubusercontent.com/vegerjiang/checkers/master/b5.png",
+                "startBallFlag":"01-1",
+                "endBallFlag":"0-11",
+                "amountOfBall":10,
+                "currentFlag":{
+                	"px":55,
+                	"py":87
+                }
+            },
+            {
+                "ballUrls":"https://raw.githubusercontent.com/vegerjiang/checkers/master/b6.png",
+                "startBallFlag":"0-11",
+                "endBallFlag":"01-1",
+                "amountOfBall":10,
+                "currentFlag":{
+                	"px":35,
+                	"py":10
+                }
+            }
+    ];
+    
+function userIndexWithStartBallPlace(x,y,z){
+    if (abs(x) + abs(y) + abs(z) <= 4) {
+        return -1;
+    };
+    var startBallFlag = "";
+    startBallFlag += (x>0?1:x<0?-1:0);
+    startBallFlag += (y>0?1:y<0?-1:0);
+    startBallFlag += (z>0?1:z<0?-1:0);
+    for (var i = 0; i < usersInfo.length; i++) {
+        if (usersInfo[i]["startBallFlag"] == startBallFlag) {
+            return i;
+        };
+    };
+    return -1;
+}
+function isBallInEnd(userIndex,x,y,z)
+{
+    if (abs(x) + abs(y) + abs(z) <= 4) {
+        return false;
+    };
+    var currentBallFlag = "";
+    currentBallFlag += (x>0?1:x<0?-1:0);
+    currentBallFlag += (y>0?1:y<0?-1:0);
+    currentBallFlag += (z>0?1:z<0?-1:0);
+    if (usersInfo[userIndex].endBallFlag == currentBallFlag) {
+    	return true;
+    };
+    return false;
+}
+
+function initUserInfoStep()
+{
+	for (var i = 0; i < usersInfo.length; i++) {
+		usersInfo[i].step = 0;
+	};
+}
+
+function incrementInfoStep(userIndex)
+{
+	usersInfo[userIndex].step ++;
+}
+
+var enableUserInfoIndexs = [];
+var userAmount = 2;
+var currentUserIndex = undefined;
+function currentUserFlagChange()
+{
+	var currentFlag = document.getElementById("currentUserFlag");
+	if (currentFlag == undefined) {
+		document.getElementById("imgBalls").innerHTML += "<img class='userFlag' id='currentUserFlag' style='left:"+usersInfo[currentUserIndex].currentFlag.px+"%;top:"+usersInfo[currentUserIndex].currentFlag.py+"%;display:block;' src='"+usersInfo[currentUserIndex].ballUrls+"'></img>";
+	}else{
+		currentFlag.style.left = usersInfo[currentUserIndex].currentFlag.px + '%';
+		currentFlag.style.top = usersInfo[currentUserIndex].currentFlag.py + "%";
+		currentFlag.src = usersInfo[currentUserIndex].ballUrls;
+	}
+}
+function setCurrentUserIndex(currentIndex,fnUserIndexChanged){
+	if (currentUserIndex == currentIndex) {
+		return;
+	};
+	var oldUserIndex = currentUserIndex;
+	currentUserIndex = currentIndex;
+	if (fnUserIndexChanged) {
+		fnUserIndexChanged(oldUserIndex,currentUserIndex);
+	};
+	currentUserFlagChange();
+}
+function getUserInfoIndexWithUserNumber(userNumber)
+{
+	switch(userNumber)
+	{
+		case 1:
+        return [4];
+		case 2:
+        return [4,5];
+		case 3:
+        return [4,3,0];
+		case 4:
+        return [1,3,0,2];
+		case 6:
+        return [4,1,3,5,0,2];
+		default:
+        return [];
+	}
+}
+
+</script>
+
+<!-- map: source and taget  -->
+<script type="text/javascript">
+
+
+var tagetImgSrc = "https://raw.githubusercontent.com/vegerjiang/checkers/master/taget.png";
+var sourceImgSrc = "https://raw.githubusercontent.com/vegerjiang/checkers/master/source.png";
+
+function setSourceAtMapKey(mapKey){
+	var source = document.getElementById("img_source_flag");
+	if (source == undefined) {
+		document.getElementById("imgBalls").innerHTML += "<img class='ballBase' id='img_source_flag' style='left:"+myMap[mapKey].px+"%;top:"+myMap[mapKey].py+"%;display:block;' src='"+sourceImgSrc+"'></img>";
+	}else{
+		source.style.left = myMap[mapKey].px + '%';
+		source.style.top = myMap[mapKey].py + "%";
+		source.style.display = "block";
+	}
+}
+function removeTheSource(){
+	var source = document.getElementById("img_source_flag");
+	if (source) {
+		source.style.display = "none";
+	};
+}
+
+var tagetIDArray = [];
+function tagetImgHTML(tagetID){
+	return document.getElementById("img_taget_" + tagetID);
+}
+function setTagetAtMapKey(mapKey){
+	var tagetID = undefined;
+	for (var i = 0; i < tagetIDArray.length; i++) {
+		if (tagetImgHTML(tagetIDArray[i]).style.display == "none") {
+			tagetID = tagetIDArray[i];
+		};
+	};
+	if (tagetID == undefined) {
+		tagetID = "taget_"+tagetIDArray.length;
+		tagetIDArray.push(tagetID);
+		document.getElementById("imgBalls").innerHTML += "<img class='ballBase' id='img_taget_" + tagetID + "' style='left:"+myMap[mapKey].px+"%;top:"+myMap[mapKey].py+"%;display:block;' src='"+tagetImgSrc+"'></img>";
+	}else{
+		var tagetImg = tagetImgHTML(tagetID);
+		tagetImg.style.left = myMap[mapKey].px + "%";
+		tagetImg.style.top = myMap[mapKey].py + "%";
+		tagetImg.style.display = "block";
+	}
+}
+function removeTagetAtMapKey(mapKey){
+	var leftPx = myMap[mapKey].px + "%";
+	var topPy = myMap[mapKey].py + "%";
+	for (var i = 0; i < tagetIDArray.length; i++) {
+		var taget = tagetImgHTML(tagetIDArray[i]);
+		if (taget.style.left == leftPx && taget.style.top == topPy) {
+			taget.style.display = "none";
+			return;
+		};
+	};
+}
+function clearTaget(){
+	for (var i = 0; i < tagetIDArray.length; i++) {
+		tagetImgHTML(tagetIDArray[i]).style.display = "none";
+	};
+}
+</script>
+
+
+
+<!-- map and user to make ball -->
+
+<script type="text/javascript">
+    
+function putOnBalls()
+{
+    enableUserInfoIndexs = getUserInfoIndexWithUserNumber(userAmount);
+    for(var elementKey in myMap)
+    {
+        var element = myMap[elementKey];
+        var userIndex = userIndexWithStartBallPlace(element["x"],element["y"],element["z"]);
+        if (userIndex < 0 || ! elementExistInArray(userIndex,enableUserInfoIndexs)) {
+            continue;
+        };
+        var ballInfo = addOneBall(element["px"],element["py"],usersInfo[userIndex]["ballUrls"],"imgBalls");
+        ballInfo["userIndex"] = userIndex;
+        ballInfo["mapKey"] = elementKey;
+        myMap[elementKey]["ballIndex"] = ballInfo.ballIndex;
+    }
+}
+function ballIsForCurrentUser(ballIndex){
+	if (currentUserIndex == allBallsOnPlatform[ballIndex].userIndex) {
+		return true;
+	};
+	return false;
+}
+</script>
+
+<!-- all mix -->
+<script type="text/javascript">
+
+function amountOfEndBallForUserIndex(userIndex){
+	var amount = 0;
+	for (var i = 0; i < allBallsOnPlatform.length; i++) {
+		if (allBallsOnPlatform[i].userIndex != userIndex) {
+			continue;
+		};
+		var mapObj = myMap[allBallsOnPlatform[i].mapKey];
+		if (isBallInEnd(userIndex,mapObj.x,mapObj.y,mapObj.z) == true) {
+			amount ++;
+		};
+	};
+	return amount;
+}
+
+var successedUsers = [];
+
+function checkIsUserSuccess(userIndex)
+{
+	if (amountOfEndBallForUserIndex(userIndex) == usersInfo[userIndex].amountOfBall) {
+		successedUsers.push(userIndex);
+		return true;
+	};
+	return false;
+}
+
+function isUserSuccessed(userIndex){
+	if (elementExistInArray(userIndex,successedUsers)) {
+		return true;
+	};
+	return false;
+}
+
+function findNextUserNeedToContinue(fnUserIndexChanged)
+{
+	var userIndexIndex = -1;
+	for (var i = 0; i < enableUserInfoIndexs.length; i++) {
+		if(currentUserIndex == enableUserInfoIndexs[i]){
+			userIndexIndex = i;
+			break;
+		}
+	};
+	if (userIndexIndex == -1) {
+		return -1;
+	};
+	var nextIndexIndex = -1;
+	for (var i = 0; i < enableUserInfoIndexs.length; i++) {
+		if (isUserSuccessed(enableUserInfoIndexs[(i+userIndexIndex+1)%enableUserInfoIndexs.length]) != true) {
+			nextIndexIndex = (i+userIndexIndex+1)%enableUserInfoIndexs.length;
+			break;
+		};
+	};
+	if (nextIndexIndex >= 0) {
+		setCurrentUserIndex(enableUserInfoIndexs[nextIndexIndex],fnUserIndexChanged);
+	};
+	return nextIndexIndex;
+}
+
+
+var activeMapKey = undefined;
+var enableMoveMapKey = [];
+function removeActive(){
+	removeTheSource();
+	clearTaget();
+	activeMapKey = undefined;
+	enableMoveMapKey = [];
+}
+function showEnableMoveAtMapKey(mapKey){
+	removeTheSource();
+	clearTaget();
+	var mapEnable = findMapKeyMoveFrom_AllEnable(mapKey);
+	setSourceAtMapKey(mapKey);
+	for (var i = 0; i < mapEnable.length; i++) {
+		setTagetAtMapKey(mapEnable[i]);
+	};
+	return mapEnable;
+}
+
+function changeUserAToUserB(userA,userB)
+{
+	for (var i = 0; i < allBallsOnPlatform.length; i++) {
+		if (allBallsOnPlatform[i].userIndex == userA) {
+			var oldObj = imgBallHTML(allBallsOnPlatform[i].imgBallID);
+			oldObj.style.width = "5%";
+			oldObj.style.height = "5%";
+		}else if(allBallsOnPlatform[i].userIndex == userB){
+			var newObj = imgBallHTML(allBallsOnPlatform[i].imgBallID);
+			newObj.style.width = "6%";
+			newObj.style.height = "6%";
+		}
+	};
+}
+</script>
+
+<!-- tip -->
+<script type="text/javascript">
+function initTipDialog()
+{
+	touchFunc(document.getElementById("tipDiv"),"start",function(obj,type,param){
+		if (param.percentX < 20 
+			|| param.percentX > 80 
+			|| param.percentY < 20 
+			|| param.percentY > 80) {
+			dismissTip();
+		};
+	});
+}
+function showTipWithHtmlContent(htmlContent)
+{
+    document.getElementById("tipContent").innerHTML = htmlContent;
+    document.getElementById("tipDiv").style.display = "block";
+}
+function dismissTip()
+{
+	document.getElementById("tipDiv").style.display = "none";
+}
+function isTipShowing(){
+	return document.getElementById("tipDiv").style.display == "block";
+}
+function tipUserNumberChange()
+{
+	showTipWithHtmlContent(document.getElementById("userNumberSelectors").innerHTML.replace(/user_temp_/g,"user_realyItem_"));
+	setTimeout(function() {
+		document.getElementById("user_realyItem_"+userAmount).src = "https://raw.githubusercontent.com/vegerjiang/checkers/master/readioSelected.png";
+	}, 20);
+}
+function tipResult()
+{
+	var maybeNames = ["摘得冠军","获得第二名","获得第三名","获得第四名","获得第五名","输了"];
+	var orderNames = [];
+	switch(successedUsers.length)
+	{
+		case 1:
+			orderNames = [maybeNames[0]];
+			break;
+
+		case 2:
+			orderNames = [maybeNames[0],maybeNames[5]];
+			break;
+
+		case 3:
+			orderNames = [maybeNames[0],maybeNames[1],maybeNames[5]];
+			break;
+
+		case 4:
+			orderNames = [maybeNames[0],maybeNames[1],maybeNames[2],maybeNames[5]];
+			break;
+		case 6:
+			orderNames = maybeNames;
+			break;
+		default:
+			break;
+	}
+	var contentHTML = "<div class='commonSpecialTip'>";
+	for (var i = 0; i < successedUsers.length; i++) {
+		var tempHTML = document.getElementById("resultItem").innerHTML.replace("theOrderOfUser",orderNames[i]).replace("ballUrl",usersInfo[successedUsers[i]].ballUrls).replace("theStepAmount",usersInfo[successedUsers[i]].step);
+		contentHTML += tempHTML;
+	};
+    contentHTML += "</div>";
+	showTipWithHtmlContent(contentHTML);
+}
+</script>
+
+<!-- event -->
+<script type="text/javascript">
+function findMapKeyWithPxPy(px,py)
+{
+	for(var mapKey in myMap)
+	{
+		if (myMap[mapKey].px < px && myMap[mapKey].px + 5 > px 
+			&& myMap[mapKey].py < py && myMap[mapKey].py + 5 > py) {
+			return mapKey;
+		};
+	}
+	return undefined;
+}
+function addEventToAll(fnMyDefaut)
+{
+	touchFunc(document.body,"start",function(obj,type,param)
+	{
+		if (isTipShowing()) {
+			return;
+		};
+		if (type == "start") {
+			var mapKey = findMapKeyWithPxPy(param.percentX,param.percentY);
+			if (mapKey == undefined) {
+				fnMyDefaut(param.percentX,param.percentY);
+				return;
+			};
+			if (myMap[mapKey].ballIndex != undefined) {
+				if (ballIsForCurrentUser(myMap[mapKey].ballIndex)) {
+					activeMapKey = mapKey;
+					enableMoveMapKey = showEnableMoveAtMapKey(mapKey);
+				};
+				return;
+			}
+			if (activeMapKey != undefined) {
+				for (var i = 0; i < enableMoveMapKey.length; i++) {
+					if (enableMoveMapKey[i] == mapKey) {
+						var ballInfo = moveBallWithMapKey(activeMapKey,mapKey);
+						if (ballInfo) {
+							incrementInfoStep(ballInfo.userIndex);
+						};
+						removeActive();
+						if(checkIsUserSuccess(currentUserIndex))
+						{
+
+						}
+						if(findNextUserNeedToContinue(changeUserAToUserB)<0)
+						{
+							tipResult();
+							reInitAll();
+						};
+						return;
+					};
+				};
+			};
+
+			return;
+		};
+	});
+}
+</script>
+
+<!-- main -->
+<script type="text/javascript">
+var reInitAll = function()
+{
+	removeAllBallOnPlatForm(function(ballInfo){
+		// dumpObj(ballInfo);
+		myMap[ballInfo.mapKey].ballIndex = undefined;
+	});
+
+	enableUserInfoIndexs = [];
+	// userAmount = 6;
+	currentUserIndex = undefined;
+
+	removeTheSource();
+	clearTaget();
+
+	successedUsers = [];
+
+	putOnBalls();
+
+	initUserInfoStep();
+
+	setTimeout(function() {
+		if (enableUserInfoIndexs.length > 0) {
+			setCurrentUserIndex(enableUserInfoIndexs[0],changeUserAToUserB);
+		};
+	}, 500);
+}
+function userNumberChangedTo(num){
+	if (userAmount == num) {
+		return;
+	};
+	userAmount = num;
+	reInitAll();
+	dismissTip();
+}
+var funDefault = function(percentX,percentY)
+{
+	if (percentX > 90 && percentY > 90) {
+		reInitAll();
+		return;
+	};
+    if (percentX < 25 && percentY > 90)
+    {
+    	tipUserNumberChange();
+        return;
+    }
+}
+function firstInitAll()
+{
+	initTipDialog();
+    initMyMap();
+    putOnBalls();
+    initUserInfoStep();
+	setTimeout(function() {
+		if (enableUserInfoIndexs.length > 0) {
+			setCurrentUserIndex(enableUserInfoIndexs[0],changeUserAToUserB);
+		};
+		addEventToAll(funDefault);
+	}, 500);
+}
+
+
+
+function startMyGame()
+{
+    firstInitAll();
+}
+</script>
+
+<!-- share -->
+<script type="text/javascript">
+        function onBridgeReady() {
+          
+          var imgUrl = "http://www.5igame.cc:8080/WebContent/tiaoqiLogo.jpg";
+          var lineLink = "http://www.5igame.cc:8080/WebContent/tiaoqi.html";
+          var descContent = '跳棋是一款很休闲的游戏，老少皆宜！';
+          var shareTitle = '老友，我发现了一个网页版的跳棋棋盘。\n有手机就可以和朋友面对面玩跳棋了。';
+          var appid = '';
+           
+          var SharePack = {
+              appid: appid,
+              img_url: imgUrl,
+              img_width: "120",
+              img_height: "120",
+              link:lineLink,
+              desc: descContent,
+              title: shareTitle
+          };
+          if (SharePack.img_url.indexOf("://") < 0) {
+              SharePack.img_url = window.location.href.replace(/[^\/]*[\?#].*$/, "") + SharePack.img_url
+          }
+          function shareCb(res) {}
+            WeixinJSBridge.on("menu:share:appmessage",
+            function(argv) {
+                WeixinJSBridge.invoke("sendAppMessage", SharePack, shareCb)
+            });
+            WeixinJSBridge.on("menu:share:timeline",
+            function(argv) {
+                WeixinJSBridge.invoke("shareTimeline", SharePack, shareCb)
+            });
+            WeixinJSBridge.on("menu:share:weibo",
+            function(argv) {
+                WeixinJSBridge.invoke("shareWeibo", {
+                    content: SharePack.title,
+                    url: SharePack.link
+                },
+                shareCb)
+            });
+            WeixinJSBridge.on("menu:share:facebook",
+            function(argv) {
+                WeixinJSBridge.invoke("shareFB", SharePack, shareCb)
+            })
+        }
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", onBridgeReady, false)
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", onBridgeReady);
+            document.attachEvent("onWeixinJSBridgeReady", onBridgeReady)
+        }
+</script>
+
+</head>
+<body onLoad="startMyGame()">
+<img class = "disableImage" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/taget.png"/>
+<img class = "disableImage" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/source.png"/>
+<img class = "disableImage" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/readioSelected.png"/>
+<div class = "backgroundDiv" id="imgBalls">
+	<img class = "backgroundDiv" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/backgound.jpg">
+</div>
+<div class = "backgroundDiv">
+<img src="https://raw.githubusercontent.com/vegerjiang/checkers/master/restart.png" class = "buttonRestart"></img>
+<div class="buttonRestartWording">开新局</div>
+<div class="buttonChangeUserNumWording">选择玩家位数</div>
+</div>
+<div class = "backgroundDiv" id="coverOfAll">
+</div>
+<div id="tipDiv">
+    <div id="tipContent">
+    </div>
+    <div id="allTipHTML">
+    	<div id="userNumberSelectors">
+    		<div class="commonSpecialTip">
+    			<a href="javascript:userNumberChangedTo(1);"><img class="itemImgType" id="user_temp_1" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/radioUnSelected.png"/>&nbsp;&nbsp;一位玩家</a>
+    			<br><br>
+    			<a href="javascript:userNumberChangedTo(2);"><img class="itemImgType" id="user_temp_2" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/radioUnSelected.png"/>&nbsp;&nbsp;两位玩家</a>
+    			<br><br>
+    			<a href="javascript:userNumberChangedTo(3);"><img class="itemImgType" id="user_temp_3" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/radioUnSelected.png"/>&nbsp;&nbsp;三位玩家</a>
+    			<br><br>
+    			<a href="javascript:userNumberChangedTo(4);"><img class="itemImgType" id="user_temp_4" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/radioUnSelected.png"/>&nbsp;&nbsp;四位玩家</a>
+    			<br><br>
+    			<a href="javascript:userNumberChangedTo(6);"><img class="itemImgType" id="user_temp_6" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/radioUnSelected.png"/>&nbsp;&nbsp;六位玩家</a>
+    		</div>
+    	</div>
+    	<div id="resultItem">
+    		<img class="resutBallType" src="ballUrl"></img>&nbsp;&nbsp;&nbsp;theOrderOfUser，&nbsp;&nbsp;总共走了&nbsp;theStepAmount&nbsp;步。<br/><br/>
+   		</div>
+    </div>
+</div>
+</body>
+</html>

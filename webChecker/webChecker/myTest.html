@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <title>fsadfa</title>
+    </head>
+    <script type="text/javascript">
+        function onBridgeReady() {
+          
+          var imgUrl = "http://image.bitauto.com/dealer/news/100018654/2fe08cbe-2acf-46b6-81e6-6e9f46304acb.jpg";
+          var lineLink = window.location.href;
+          var descContent = 'tiao qi';
+          var shareTitle = 'play tiao qi with your friends.';
+          var appid = 'jianghuifu002';
+           
+          var SharePack = {
+              appid: appid,
+              img_url: imgUrl,
+              img_width: "120",
+              img_height: "120",
+              link:lineLink,
+              desc: descContent,
+              title: shareTitle
+          };
+          if (SharePack.img_url.indexOf("://") < 0) {
+              SharePack.img_url = window.location.href.replace(/[^\/]*[\?#].*$/, "") + SharePack.img_url
+          }
+          function shareCb(res) {}
+            WeixinJSBridge.on("menu:share:appmessage",
+            function(argv) {
+                WeixinJSBridge.invoke("sendAppMessage", SharePack, shareCb)
+            });
+            WeixinJSBridge.on("menu:share:timeline",
+            function(argv) {
+                WeixinJSBridge.invoke("shareTimeline", SharePack, shareCb)
+            });
+            WeixinJSBridge.on("menu:share:weibo",
+            function(argv) {
+                WeixinJSBridge.invoke("shareWeibo", {
+                    content: SharePack.title,
+                    url: SharePack.link
+                },
+                shareCb)
+            });
+            WeixinJSBridge.on("menu:share:facebook",
+            function(argv) {
+                WeixinJSBridge.invoke("shareFB", SharePack, shareCb)
+            })
+        }
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", onBridgeReady, false)
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", onBridgeReady);
+            document.attachEvent("onWeixinJSBridgeReady", onBridgeReady)
+        }
+    </script>
+    <body onload="startToShow()">
+        fasdfasd奋斗是分fsds
+    </body>
+</html>
