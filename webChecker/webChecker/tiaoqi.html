@@ -101,12 +101,12 @@ body {
 </style>
 <!-- tiaoqiBase.js contain: event.js,common.js,map.js,ball.js,mapballbase.js-->
 <script type="text/javascript" src="http://www.5igame.cc:8080/WebContent/tiaoqiBase.js"></script>
-<!-- <script type="text/javascript" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/tiaoqiBase.js"></script> -->
+<!-- <script type="text/javascript" src="https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/tiaoqiBase.js"></script> -->
 <!-- users -->
 <script type="text/javascript">
 var usersInfo = [
             {
-                "ballUrls":"https://raw.githubusercontent.com/vegerjiang/checkers/master/b1.png",
+                "ballUrls":"https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/b1.png",
                 "startBallFlag":"101",
                 "endBallFlag":"-10-1",
                 "amountOfBall":10,
@@ -116,7 +116,7 @@ var usersInfo = [
                 }
             },
             {
-                 "ballUrls":"https://raw.githubusercontent.com/vegerjiang/checkers/master/b2.png",
+                 "ballUrls":"https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/b2.png",
                  "startBallFlag":"-10-1",
                 "endBallFlag":"101",
                 "amountOfBall":10,
@@ -126,7 +126,7 @@ var usersInfo = [
                 }
             },
             {
-                "ballUrls":"https://raw.githubusercontent.com/vegerjiang/checkers/master/b3.png",
+                "ballUrls":"https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/b3.png",
                 "startBallFlag":"110",
                 "endBallFlag":"-1-10",
                 "amountOfBall":10,
@@ -136,7 +136,7 @@ var usersInfo = [
                 }
             },
             {
-                "ballUrls":"https://raw.githubusercontent.com/vegerjiang/checkers/master/b4.png",
+                "ballUrls":"https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/b4.png",
                 "startBallFlag":"-1-10",
                 "endBallFlag":"110",
                 "amountOfBall":10,
@@ -146,7 +146,7 @@ var usersInfo = [
                 }
             },
             {
-                "ballUrls":"https://raw.githubusercontent.com/vegerjiang/checkers/master/b5.png",
+                "ballUrls":"https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/b5.png",
                 "startBallFlag":"01-1",
                 "endBallFlag":"0-11",
                 "amountOfBall":10,
@@ -156,7 +156,7 @@ var usersInfo = [
                 }
             },
             {
-                "ballUrls":"https://raw.githubusercontent.com/vegerjiang/checkers/master/b6.png",
+                "ballUrls":"https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/b6.png",
                 "startBallFlag":"0-11",
                 "endBallFlag":"01-1",
                 "amountOfBall":10,
@@ -259,8 +259,8 @@ function getUserInfoIndexWithUserNumber(userNumber)
 <script type="text/javascript">
 
 
-var tagetImgSrc = "https://raw.githubusercontent.com/vegerjiang/checkers/master/taget.png";
-var sourceImgSrc = "https://raw.githubusercontent.com/vegerjiang/checkers/master/source.png";
+var tagetImgSrc = "https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/taget.png";
+var sourceImgSrc = "https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/source.png";
 
 function setSourceAtMapKey(mapKey){
 	var source = document.getElementById("img_source_flag");
@@ -474,7 +474,7 @@ function tipUserNumberChange()
 {
 	showTipWithHtmlContent(document.getElementById("userNumberSelectors").innerHTML.replace(/user_temp_/g,"user_realyItem_"));
 	setTimeout(function() {
-		document.getElementById("user_realyItem_"+userAmount).src = "https://raw.githubusercontent.com/vegerjiang/checkers/master/readioSelected.png";
+		document.getElementById("user_realyItem_"+userAmount).src = "https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/readioSelected.png";
 	}, 20);
 }
 function tipResult()
@@ -699,14 +699,14 @@ function startMyGame()
 
 </head>
 <body onLoad="startMyGame()">
-<img class = "disableImage" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/taget.png"/>
-<img class = "disableImage" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/source.png"/>
-<img class = "disableImage" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/readioSelected.png"/>
+<img class = "disableImage" src="https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/taget.png"/>
+<img class = "disableImage" src="https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/source.png"/>
+<img class = "disableImage" src="https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/readioSelected.png"/>
 <div class = "backgroundDiv" id="imgBalls">
-	<img class = "backgroundDiv" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/backgound.jpg">
+	<img class = "backgroundDiv" src="https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/backgound.jpg">
 </div>
 <div class = "backgroundDiv">
-<img src="https://raw.githubusercontent.com/vegerjiang/checkers/master/restart.png" class = "buttonRestart"></img>
+<img src="https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/restart.png" class = "buttonRestart"></img>
 <div class="buttonRestartWording">开新局</div>
 <div class="buttonChangeUserNumWording">选择玩家位数</div>
 </div>
@@ -718,15 +718,15 @@ function startMyGame()
     <div id="allTipHTML">
     	<div id="userNumberSelectors">
     		<div class="commonSpecialTip">
-    			<a href="javascript:userNumberChangedTo(1);"><img class="itemImgType" id="user_temp_1" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/radioUnSelected.png"/>&nbsp;&nbsp;一位玩家</a>
+    			<a href="javascript:userNumberChangedTo(1);"><img class="itemImgType" id="user_temp_1" src="https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/radioUnSelected.png"/>&nbsp;&nbsp;一位玩家</a>
     			<br><br>
-    			<a href="javascript:userNumberChangedTo(2);"><img class="itemImgType" id="user_temp_2" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/radioUnSelected.png"/>&nbsp;&nbsp;两位玩家</a>
+    			<a href="javascript:userNumberChangedTo(2);"><img class="itemImgType" id="user_temp_2" src="https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/radioUnSelected.png"/>&nbsp;&nbsp;两位玩家</a>
     			<br><br>
-    			<a href="javascript:userNumberChangedTo(3);"><img class="itemImgType" id="user_temp_3" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/radioUnSelected.png"/>&nbsp;&nbsp;三位玩家</a>
+    			<a href="javascript:userNumberChangedTo(3);"><img class="itemImgType" id="user_temp_3" src="https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/radioUnSelected.png"/>&nbsp;&nbsp;三位玩家</a>
     			<br><br>
-    			<a href="javascript:userNumberChangedTo(4);"><img class="itemImgType" id="user_temp_4" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/radioUnSelected.png"/>&nbsp;&nbsp;四位玩家</a>
+    			<a href="javascript:userNumberChangedTo(4);"><img class="itemImgType" id="user_temp_4" src="https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/radioUnSelected.png"/>&nbsp;&nbsp;四位玩家</a>
     			<br><br>
-    			<a href="javascript:userNumberChangedTo(6);"><img class="itemImgType" id="user_temp_6" src="https://raw.githubusercontent.com/vegerjiang/checkers/master/radioUnSelected.png"/>&nbsp;&nbsp;六位玩家</a>
+    			<a href="javascript:userNumberChangedTo(6);"><img class="itemImgType" id="user_temp_6" src="https://raw.githubusercontent.com/yiyiBeauty/tiaoqi/master/radioUnSelected.png"/>&nbsp;&nbsp;六位玩家</a>
     		</div>
     	</div>
     	<div id="resultItem">

@@ -25,8 +25,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    NSString *filePath = [[NSBundle mainBundle]pathForResource:@"tiaoqi" ofType:@"html"];
-    NSString *filePath = [[NSBundle mainBundle]pathForResource:@"myTest" ofType:@"html"];
+    NSString *filePath = [[NSBundle mainBundle]pathForResource:@"tiaoqi" ofType:@"html"];
+//    NSString *filePath = [[NSBundle mainBundle]pathForResource:@"myTest" ofType:@"html"];
     NSString *htmlString = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     [_webView loadHTMLString:htmlString baseURL:[NSURL URLWithString:filePath]];
 }
