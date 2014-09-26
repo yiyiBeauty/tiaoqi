@@ -59,7 +59,7 @@ var ChessServer = {
         socket.on("finishRoomBroadcast", finishFunc);
     },
     createRoom: function(peopleNum){
-        console.log("Send createRoom Req");
+        // console.log("Send createRoom Req");
         socket.emit("createRoomReq", {peopleNum: peopleNum});
     },
     onCreateRoomRsp:function(roomID,playerID){
