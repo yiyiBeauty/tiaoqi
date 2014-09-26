@@ -31,6 +31,8 @@ var ChessServer = {
         });
         socket.on('joinRoomRsp', function(data){
             console.log("joinRoomRsp: " + JSON.stringify(data));
+            roomID = data.roomID;
+            playerID = data.playerID;
             ChessServer.onJoinRoomBroadcast(data.roomID,data.peopleNum,data.playerID,data.allPlayerID);
         });
         socket.on('joinRoomBroadcast', function(data){
