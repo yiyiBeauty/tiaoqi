@@ -33,7 +33,8 @@ var ChessServer = {
             console.log("joinRoomRsp: " + JSON.stringify(data));
             roomID = data.roomID;
             playerID = data.playerID;
-            ChessServer.onJoinRoomRsp(roomID,playerID);
+            var allPlayerID = data.allPlayerID;
+            ChessServer.onJoinRoomRsp(roomID,playerID,allPlayerID);
         });
         socket.on('joinRoomBroadcast', function(data){
             console.log("joinRoomBraodcast", JSON.stringify(data));
@@ -69,8 +70,8 @@ var ChessServer = {
         console.log("Send joinRoom Req");
         socket.emit("joinRoomReq", {roomID: roomID});
     },
-    onJoinRoomRsp:function(roomID,playerID){
-        alert("createRoomRsp: "+"roomID="+roomID+", playerID="+playerID);
+    onJoinRoomRsp:function(roomID,playerID,allPlayerID){
+        alert("createRoomRsp: "+"roomID="+roomID+", playerID="+playerID+", allPlayerID="+allPlayerID);
     },
     onJoinRoomBroadcast:function(roomID,peopleNum,playerID,allPlayerID){
         alert("onJoinRoomBroadcast: roomID="+roomID+", peopleNum="+peopleNum+", playerID="+playerID+", allPlayerID="+allPlayerID);
