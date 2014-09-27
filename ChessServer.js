@@ -53,7 +53,7 @@ var ChessServer = {
         });
         var finishFunc = function(data){
             console.log("finish", JSON.stringify(data));
-            ChessServer(data.roomID,data.playerID);
+            ChessServer.onFinishRoomRsp(data.roomID,data.playerID);
         };
         socket.on("finishRoomRsp", finishFunc);
         socket.on("finishRoomBroadcast", finishFunc);
