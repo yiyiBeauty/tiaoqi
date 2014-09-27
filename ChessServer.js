@@ -7,7 +7,7 @@ var ChessServer = {
     },
     onMessage:function(json){
     },
-    socketUrl:"http://www.5igame.cc:8080",//服务器地址
+    socketUrl:"http://www.5igame.cc",//服务器地址
 
     socketConnect:function(){//建立websocket连接
         socket = io.connect(ChessServer.socketUrl);
@@ -33,11 +33,11 @@ var ChessServer = {
             console.log("joinRoomRsp: " + JSON.stringify(data));
             roomID = data.roomID;
             playerID = data.playerID;
-            ChessServer.onJoinRoomBroadcast(data.roomID,data.peopleNum,data.playerID,data.allPlayerID);
+            ChessServer.onJoinRoomBroadcast(data.roomID,parseInt(data.peopleNum),data.playerID,data.allPlayerID);
         });
         socket.on('joinRoomBroadcast', function(data){
             console.log("joinRoomBraodcast", JSON.stringify(data));
-            ChessServer.onJoinRoomBroadcast(data.roomID,data.peopleNum,data.playerID,data.allPlayerID);
+            ChessServer.onJoinRoomBroadcast(data.roomID,parseInt(data.peopleNum),data.playerID,data.allPlayerID);
         });
         socket.on('leaveRoomBroadcast', function(data){
             console.log("leaveRoomBraodcast", JSON.stringify(data));
@@ -60,7 +60,7 @@ var ChessServer = {
     },
     createRoom: function(peopleNum){
         console.log("Send createRoom Req");
-        socket.emit("createRoomReq", {peopleNum: peopleNum});
+        socket.emit("createRoomReq", {peopleNum: parseInt(peopleNum)});
     },
     onCreateRoomRsp:function(roomID,playerID){
         alert("createRoomRsp: "+"roomID="+roomID+", playerID="+playerID);
